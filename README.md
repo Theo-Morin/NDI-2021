@@ -57,3 +57,17 @@ public function getUserAgent() {
 
 **Controllers :**
 - Nommer les routes avec des "-" quand un espace doit être mis, exemple : forgot password -> forgot-password
+
+
+### GitHub
+
+**Initialisation du projet avec un personal access token :**
+```
+git clone https://<your_token>@github.com/Theo-Morin/NDI2021.git
+```
+
+**Créer un personal access token github :**
+- Profile > settings
+- developer settings
+- Personal access token
+- Generate new token
