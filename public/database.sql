@@ -1,14 +1,14 @@
 /**
  * Création et selection de la base de donnée
  */
- CREATE DATABASE IF NOT EXIST DEFAULT_TEMPLATE;
- USE DEFAULT_TEMPLATE;
+ CREATE DATABASE template;
+ USE template;
 
 /**
  * Création de la table utilisateur
  */
 CREATE TABLE users (
-    userId INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    userId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL,
     pseudonyme VARCHAR(255) NOT NULL,
     passwd VARCHAR(255) NOT NULL,

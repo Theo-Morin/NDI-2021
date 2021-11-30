@@ -1,7 +1,6 @@
 <?php 
 
 function hashPasswd($data) {
-    var_dump(hash("sha256", $data, false));
     return hash('sha256', $data, false);
 } 
 
