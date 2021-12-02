@@ -19,3 +19,27 @@ CREATE TABLE users (
     forgotPasswordToken VARCHAR(50),
     creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE boats();
+
+CREATE TABLE boats();
+
+CREATE TABLE persons();
+
+CREATE TABLE decorations();
+
+CREATE TABLE boats();
+
+CREATE TABLE savings();
+
+CREATE TABLE crews();
+
+CREATE TABLE boats();
+
+CREATE TABLE decorates();
+
+CREATE TABLE boats_savings();
+
+CREATE TABLE siblings();
+
+CREATE TABLE parents();
