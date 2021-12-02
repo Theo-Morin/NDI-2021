@@ -7,6 +7,18 @@ switch($uc1) {
         $include = "home";
         $title = "Home page";
     break;
+    case "person":
+        require 'person_controller.php';
+    break;
+    case "boat":
+        require 'boat_controller.php';
+    break;
+    case "saving":
+        require 'saving_controller.php';
+    break;
+    case "decoration":
+        require 'decoration_controller.php';
+    break;
     case "user":
         require 'user_controller.php';
     break;
