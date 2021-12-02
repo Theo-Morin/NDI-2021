@@ -17,29 +17,72 @@ CREATE TABLE users (
     phoneNumber VARCHAR(255),
     isForgot BOOLEAN DEFAULT 0,
     forgotPasswordToken VARCHAR(50),
-    creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
 
-CREATE TABLE boats();
+CREATE TABLE boats(
+    boatId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    imatriculation INT NOT NULL,
+    bname VARCHAR(255) ,
+    model VARCHAR(255) ,
+    motor VARCHAR(255) ,
+    launchDate DATETIME ,
+    confirmed BOOLEAN DEFAULT 0,
+    oldRef INT,
+);
 
-CREATE TABLE boats();
+CREATE TABLE persons(
+    personId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    fullname VARCHAR(255) ,
+    grade VARCHAR(255),
+    content TEXT,
+    pics VARCHAR(255),
+    birth DATETIME ,
+    death DATETIME ,
+    gender BOOLEAN,
+    confirmed BOOLEAN DEFAULT 0,
+    oldRef INT,
+);
 
-CREATE TABLE persons();
+CREATE TABLE decorations(
+    decoId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    label VARCHAR(255),
+    pics VARCHAR(255),
+);
 
-CREATE TABLE decorations();
 
-CREATE TABLE boats();
+CREATE TABLE savings(
+    savingId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    savingName VARCHAR(255) ,
+    nbSave INT,
+    content TEXT,
+    destination VARCHAR(255),
+    savingDate DATETIME,
+    confirmed BOOLEAN DEFAULT 0,
+    oldRef INT,
+);
 
-CREATE TABLE savings();
+CREATE TABLE crews(
+    post VARCHAR(255),
+    nbDead INT,
+    FOREIGN KEY (boatId) REFERENCES boats(boatId),
+    FOREIGN KEY (savingId) REFERENCES savings(savingId),
+    FOREIGN KEY (personId) REFERENCES persons(personId),
+);
 
-CREATE TABLE crews();
 
-CREATE TABLE boats();
 
-CREATE TABLE decorates();
+CREATE TABLE siblings(
+    FOREIGN KEY (personId) REFERENCES persons(personId),
+    FOREIGN KEY (siblingId) REFERENCES persons(personId),
+);
 
-CREATE TABLE boats_savings();
+CREATE TABLE parents(
+    FOREIGN KEY (personId) REFERENCES persons(personId),
+    FOREIGN KEY (parentId) REFERENCES persons(personId),
+);
 
-CREATE TABLE siblings();
-
-CREATE TABLE parents();
+CREATE TABLE decorated(
+    FOREIGN KEY (decoId) REFERENCES decorations(decoId),
+    FOREIGN KEY (personId) REFERENCES persons(personId),
+);
