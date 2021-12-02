@@ -29,7 +29,7 @@ CREATE TABLE boats(
     motor VARCHAR(255) ,
     launchDate DATETIME ,
     confirmed BOOLEAN DEFAULT 0,
-    oldRef INT,
+    oldRef INT
 );
 
 CREATE TABLE persons(
@@ -42,13 +42,13 @@ CREATE TABLE persons(
     death DATETIME ,
     gender BOOLEAN,
     confirmed BOOLEAN DEFAULT 0,
-    oldRef INT,
+    oldRef INT
 );
 
 CREATE TABLE decorations(
     decoId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     label VARCHAR(255),
-    pics VARCHAR(255),
+    pics VARCHAR(255)
 );
 
 
@@ -60,30 +60,43 @@ CREATE TABLE savings(
     destination VARCHAR(255),
     savingDate DATETIME,
     confirmed BOOLEAN DEFAULT 0,
-    oldRef INT,
+    oldRef INT
 );
 
 CREATE TABLE crews(
     post VARCHAR(255),
     nbDead INT,
+    boatId INT,
+    savingId INT,
+    personId INT,
+    PRIMARY KEY (boatId,savingId,personId)  ,
     FOREIGN KEY (boatId) REFERENCES boats(boatId),
     FOREIGN KEY (savingId) REFERENCES savings(savingId),
-    FOREIGN KEY (personId) REFERENCES persons(personId),
+    FOREIGN KEY (personId) REFERENCES persons(personId)
 );
 
 
 
 CREATE TABLE siblings(
+    siblingId INT,
+    personId INT,
+    PRIMARY KEY (siblingId,personId)  ,
     FOREIGN KEY (personId) REFERENCES persons(personId),
-    FOREIGN KEY (siblingId) REFERENCES persons(personId),
+    FOREIGN KEY (siblingId) REFERENCES persons(personId)
 );
 
 CREATE TABLE parents(
+    parentId INT,
+    personId INT,
+    PRIMARY KEY (parentId,personId)  ,
     FOREIGN KEY (personId) REFERENCES persons(personId),
-    FOREIGN KEY (parentId) REFERENCES persons(personId),
+    FOREIGN KEY (parentId) REFERENCES persons(personId)
 );
 
 CREATE TABLE decorated(
+    decoId INT,
+    personId INT,
+    PRIMARY KEY (decoId,personId)  ,
     FOREIGN KEY (decoId) REFERENCES decorations(decoId),
-    FOREIGN KEY (personId) REFERENCES persons(personId),
+    FOREIGN KEY (personId) REFERENCES persons(personId)
 );
