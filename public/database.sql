@@ -29,7 +29,9 @@ CREATE TABLE boats(
     motor VARCHAR(255) ,
     launchDate DATETIME ,
     confirmed BOOLEAN DEFAULT 0,
-    oldRef INT
+    oldRef INT,
+    userId INT,
+    FOREIGN KEY (userId) REFERENCES users(userId)
 );
 
 CREATE TABLE persons(
@@ -42,11 +44,15 @@ CREATE TABLE persons(
     death DATETIME ,
     gender BOOLEAN,
     confirmed BOOLEAN DEFAULT 0,
-    oldRef INT
+    oldRef INT,
+    userId INT,
+    FOREIGN KEY (userId) REFERENCES users(userId)
 );
 
 CREATE TABLE decorations(
     decoId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    userId INT,
+    FOREIGN KEY (userId) REFERENCES users(userId),
     label VARCHAR(255),
     pics VARCHAR(255)
 );
@@ -60,7 +66,9 @@ CREATE TABLE savings(
     destination VARCHAR(255),
     savingDate DATETIME,
     confirmed BOOLEAN DEFAULT 0,
-    oldRef INT
+    oldRef INT,
+    userId INT,
+    FOREIGN KEY (userId) REFERENCES users(userId)
 );
 
 CREATE TABLE crews(
@@ -69,7 +77,9 @@ CREATE TABLE crews(
     boatId INT,
     savingId INT,
     personId INT,
+    userId INT,
     PRIMARY KEY (boatId,savingId,personId)  ,
+    FOREIGN KEY (userId) REFERENCES users(userId),
     FOREIGN KEY (boatId) REFERENCES boats(boatId),
     FOREIGN KEY (savingId) REFERENCES savings(savingId),
     FOREIGN KEY (personId) REFERENCES persons(personId)
@@ -80,7 +90,9 @@ CREATE TABLE crews(
 CREATE TABLE siblings(
     siblingId INT,
     personId INT,
+    userId INT,
     PRIMARY KEY (siblingId,personId)  ,
+    FOREIGN KEY (userId) REFERENCES users(userId),
     FOREIGN KEY (personId) REFERENCES persons(personId),
     FOREIGN KEY (siblingId) REFERENCES persons(personId)
 );
@@ -88,7 +100,9 @@ CREATE TABLE siblings(
 CREATE TABLE parents(
     parentId INT,
     personId INT,
+    userId INT,
     PRIMARY KEY (parentId,personId)  ,
+    FOREIGN KEY (userId) REFERENCES users(userId),
     FOREIGN KEY (personId) REFERENCES persons(personId),
     FOREIGN KEY (parentId) REFERENCES persons(personId)
 );
@@ -96,7 +110,9 @@ CREATE TABLE parents(
 CREATE TABLE decorated(
     decoId INT,
     personId INT,
+    userId INT,
     PRIMARY KEY (decoId,personId)  ,
+    FOREIGN KEY (userId) REFERENCES users(userId),
     FOREIGN KEY (decoId) REFERENCES decorations(decoId),
     FOREIGN KEY (personId) REFERENCES persons(personId)
 );
