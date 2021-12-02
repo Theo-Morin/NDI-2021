@@ -17,7 +17,8 @@ CREATE TABLE users (
     phoneNumber VARCHAR(255),
     isForgot BOOLEAN DEFAULT 0,
     forgotPasswordToken VARCHAR(50),
-    creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    isAdmin BOOLEAN DEFAULT 0,
+    creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE boats(
