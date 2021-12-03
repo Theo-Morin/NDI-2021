@@ -70,14 +70,34 @@ class Person{
         return $req->fetch();
     }
 
-    function update(){
+
+    static function create($fullname,$grade,$content,$pics,$birth,$death,$gender){
         if($this->user->isLogged()){
-            $reqSelect = Database::getInstance()->prepare('');
-            $reqSelect->execute(array($this->id));
-            $reqSelect->FetchAll();
+            $link = File::upload($pics, "persons");
+            $reqInsert = Database::getInstance()->prepare('INSERT INTO persons(fullname,grade,content,pics,birth,death,gender,confirmed,oldRef,userId) VALUES (?)');
+            
+            $reqInsert->execute(array($fullname,$grade,$content,$link,$birth,$deth,$gender,0,null,$this->user->getUserId()));
+            Notification::create("success","the update are succesfull");
+            if ($this->user->isAdmin()){
+                $this.validate();
+            }
+            return true;
+        }
+        else{
+            Notification::create("warning","you are not login");
+            return false;
+        }
+    }
 
-            $reqInsert = Database::getInstance()->prepare('INSERT persons INTO ');
-
+    function update($fullname,$grade,$content,$pics,$birth,$death,$gender){
+        if($this->user->isLogged()){
+            $link = File::upload($pics, "persons");
+            $reqInsert = Database::getInstance()->prepare('INSERT INTO persons(fullname,grade,content,pics,birth,death,gender,confirmed,oldRef,userId) VALUES (?)');
+            
+            $reqInsert->execute(array($fullname,$grade,$content,$link,$birth,$deth,$gender,0,$id,$this->user->getUserId()));
+            if ($this->user->isAdmin()){
+                $this.validate();
+            }
             Notification::create("success","the update are succesfull");
             return true;
         }
@@ -87,19 +107,27 @@ class Person{
         }
     }
 
-    function create($fullname,$grade,$content,$pics,$birth,$death,$gender){
+    function delete(){
         if($this->user->isLogged()){
-            $reqInsert = Database::getInstance()->prepare('INSERT INTO persons(fullname,grade,content,pics,birth,death,gender,confirmed,oldRef,userInt,userId) VALUES (?)');
-            $reqSelect->execute(array($fullname,$grade,$content,$pics,$birth,$deth,$gender));
-            Notification::create("success","the update are succesfull");
-            return true;
-        }
-        else{
-            Notification::create("warning","you are not login");
-            return false;
+            $reqInsert = Database::getInstance()->prepare('DELETE FROM persons WHERE personId=?');
+            $reqInsert->execute(array($id));
         }
     }
 
+    function validate(){
+        if($this->user->isLogged()){
+            $reqInsert = Database::getInstance()->prepare('UPDATE persons SET confirmed=1 WHERE personId=?');
+            $reqInsert->execute(array($id));
+            $reqOldRef = Database::getInstance()->prepare('SELECT persons.oldRef WHERE personId=? ');
+            $reqOldRef->execute(array($id));
+            if ($reqOldRef->RowCount() >0){
+                $reqDelete = Database::getInstance()->prepare('DELETE  FROM persons WHERE personId=?');
+                $reqDelete->execute(array($reqOldRef->Fetch()));
+                $reqBlank = Database::getInstance()->prepare(' UPDATE persons SET oldRef=null WHERE personId=?');
+                $reqBlank->execute(array($id));
+            }
+        }
+    }
 
 }
 

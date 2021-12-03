@@ -19,7 +19,6 @@ class Savings {
 
     function getPersons(){
 
-
         $req1 = Database::getInstance()->prepare('SELECT DISTINCT post FROM crews WHERE savingId = ?');
         $req1->execute(array($id));
         $tb1 = $req1->FetchAll();
