@@ -14,15 +14,27 @@ switch($uc2) {
         $include = "users/login";
         $title = "Se connecter";
     break;
+    case "profile":
+        $include = "users/profile";
+        $title = "Mon profile";
+    break;
     case "register":
         if($user->isLogged()) exit(header('Location: /home'));
-        // if(isset($_POST)) {
-        //     // ToDo
-        // }
+        if(isset($_POST)) {
+            $email = htmlspecialchars($_POST['email']);
+            $pseudonyme = htmlspecialchars($_POST['pseudonyme']);
+            $firstName = htmlspecialchars($_POST['firstName']);
+            $lastName = htmlspecialchars($_POST['lastName']);
+            $passwd = htmlspecialchars($_POST['passwd']);
+            $confPasswd = htmlspecialchars($_POST['confPasswd']);
+            if($passwd == $confPasswd) {
+                if(User::register($email, $pseudonyme,$passwd,$firstName,$lastName)) exit(header('Location: /contributor/login'));
+            }
+        }
         $include = "users/register";
         $title = "S'inscrire";
     break;
-    case "forgot-password":
+    /*case "forgot-password":
         if(isset($_GET['uc3'])) {
             $uc3 = htmlspecialchars($_GET['uc3']);
             if(isset($_POST)) {
@@ -49,7 +61,7 @@ switch($uc2) {
         }
         $include = "users/forgot-password";
         $title = "Mot de passe oublié";
-    break;
+    break;*/
     case "logout":
         session_destroy();
         unset($_COOKIE['token']);

@@ -19,7 +19,12 @@ switch($uc1) {
     case "decoration":
         require 'decoration_controller.php';
     break;
-    case "user":
+    case "admin":
+        $user = new User();
+        if(!$user->isAdmin()) exit(header('Location: /home'));
+        require '/components/controllers/admin_controller.php';
+    break;
+    case "contributor":
         require 'user_controller.php';
     break;
     default:
