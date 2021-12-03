@@ -4,6 +4,7 @@ class User {
     private $token;
     private $userId;
     private $email;
+    private $isAdmin;
 
     function __construct($username = false, $password = false) {
         if($username && $password) {
@@ -12,9 +13,10 @@ class User {
         else {
             $token = htmlspecialchars($_SESSION['userToken']);
             if($this->isLogged()) {
+                $token = JWToken::decode($token);
                 $email = $token['payload']['email'];
                 $userId = $token['payload']['userId'];
-                $this->token = $token;
+                $this->token = $_SESSION['userToken'];
             }
         }
 
@@ -23,9 +25,13 @@ class User {
     public function getEmail() {return $this->email;}
     public function getUserId() {return $this->userId;}
     public function isLogged() {
-        if(!isset($this->token)) return false;
-        if(JWToken::decode($this->token)) return true;
-        else return false;
+        return JWToken::decode($_SESSION['userToken']);
+    }
+
+    public function isAdmin() {
+        $req = MySQL::getInstance()->prepare('SELECT * FROM users WHERE userId = ? AND isAdmin = ?');
+        $req->execute(array($this->userId, 1));
+        return $req->RowCount() == 1;
     }
 
     public function login($username, $password) {
@@ -34,18 +40,23 @@ class User {
         $req->execute(array($username, $password));
         if($req->RowCount() == 1) {
             $result = $req->Fetch();
+            $this->isAdmin = $result['isAdmin'];
             $token = JWToken::generate(["userId" => $result['userId'],"email" => $result['email'], "userAgent" => $_SERVER['HTTP_USER_AGENT']]);
             $_SESSION['userToken'] = $token;
             return true;
         }
-        Notifications::create("danger","Adresse email ou mot de passe incorrect.");
-        return false;
+        else {
+            Notifications::create("danger","Adresse email ou mot de passe incorrect.");
+            return false;
+        }
     }
     public static function register($email, $pseudonyme, $passwd, $firstname = false, $lastName = false, $phoneNumber = false) {
         $req = Database::getInstance()->prepare('SELECT * FROM users WHERE email = ?');
         $req->execute(array($email));
-        Notifications::create("danger","Une adresse email est déjà associé à un compte.");
-        if($req->RowCount() > 0) return false;
+        if($req->RowCount() > 0){
+            Notifications::create("danger","Une adresse email est déjà associé à un compte.");
+            return false;
+        }
         $req = Database::getInstance()->prepare('INSERT INTO users(email, pseudonyme, passwd, firstName, lastName, phoneNumber) VALUES(?,?,?,?,?,?)');
         $req->execute(array($email, $pseudonyme, $passwd, $firstname, $lastName,$phoneNumber));
         return true;

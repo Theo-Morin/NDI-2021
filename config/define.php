@@ -1,7 +1,7 @@
 <?php
 
 define('URL', "http://localhost/");
-define('APP_NAME', "DEFAULT TEMPLATE");
+define('APP_NAME', "SNSM");
 
 define('VIEW_PATH', "/components/views/");
 define('PUBLIC_PATH', "/public/");
