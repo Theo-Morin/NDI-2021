@@ -2,6 +2,11 @@
 
 class Boat {
     public $id;
+    private $user;
+
+    function __construct() {
+        $this->user = new User();
+    }
 
     function getAll(){
 
@@ -48,37 +53,40 @@ class Boat {
 
 
     static function create($imat,$name,$model,$motor,$launchDate){
-        if($this->user->isLogged()){
+        $user = new User();
+        if($user->isLogged()){
             $link = File::upload($pics, "boats");
-            $reqInsert = Database::getInstance()->prepare('INSERT INTO boats(imatriculation,bname,model,motor,launchDate,confirmed,oldRef,userId) VALUES (?)');
-            
-            $reqInsert->execute(array($imat,$name,$model,$motor,$launchDate,0,null,$this->user->getUserId()));
-            Notification::create("success","the update are succesfull");
-            if ($this->user->isAdmin()){
-                $this.validate();
+            $launchDate = stringToDate($launchDate);
+            $reqInsert = Database::getInstance()->prepare('INSERT INTO boats(imatriculation,bname,model,motor,launchDate,userId) VALUES (?, ?, ?, ?, ?, ?)');
+            $reqInsert->execute(array($imat,$name,$model,$motor,$launchDate,$user->getUserId()));
+            Notifications::create("success","Boat was created !");
+            if ($user->isAdmin()){
+                //$user->validate();
             }
             return true;
         }
         else{
-            Notification::create("warning","you are not login");
+            Notifications::create("warning","you are not login");
             return false;
         }
     }
 
-    static function update($imat,$name,$model,$motor,$launchDate){
+    function update($imat,$name,$model,$motor,$launchDate){
         if($this->user->isLogged()){
             $link = File::upload($pics, "boats");
+            $launchDate = stringToDate($launchDate);
+
             $reqInsert = Database::getInstance()->prepare('INSERT INTO boats(imatriculation,bname,model,motor,launchDate,confirmed,oldRef,userId) VALUES (?)');
                
             $reqInsert->execute(array($imat,$name,$model,$motor,$launchDate,0,$id,$this->user->getUserId()));
             if ($this->user->isAdmin()){
                 $this.validate();
             }
-            Notification::create("success","the update are succesfull");
+            Notifications::create("success","the update are succesfull");
             return true;
         }
         else{
-            Notification::create("warning","you are not login");
+            Notifications::create("warning","you are not login");
             return false;
         }
     }

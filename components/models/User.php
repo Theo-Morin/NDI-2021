@@ -29,7 +29,7 @@ class User {
     }
 
     public function isAdmin() {
-        $req = MySQL::getInstance()->prepare('SELECT * FROM users WHERE userId = ? AND isAdmin = ?');
+        $req = Database::getInstance()->prepare('SELECT * FROM users WHERE userId = ? AND isAdmin = ?');
         $req->execute(array($this->userId, 1));
         return $req->RowCount() == 1;
     }
@@ -57,6 +57,7 @@ class User {
             Notifications::create("danger","Une adresse email est déjà associé à un compte.");
             return false;
         }
+        $passwd = hashPasswd($passwd);
         $req = Database::getInstance()->prepare('INSERT INTO users(email, pseudonyme, passwd, firstName, lastName, phoneNumber) VALUES(?,?,?,?,?,?)');
         $req->execute(array($email, $pseudonyme, $passwd, $firstname, $lastName,$phoneNumber));
         return true;

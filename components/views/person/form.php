@@ -1,7 +1,7 @@
 <body>
     <div class="container mt-5">
         <h3 class="title mb-3 text-primary"><?= $create == 1 ? "Nouvelle personne" : "Modifier la personne" ?></h3>
-        <form action="">
+        <form action="" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <div class="row">
                     <div class="col-6">

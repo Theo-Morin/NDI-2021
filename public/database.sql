@@ -23,7 +23,7 @@ CREATE TABLE users (
 
 CREATE TABLE boats(
     boatId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    imatriculation INT NOT NULL,
+    imatriculation VARCHAR(255) NOT NULL,
     bname VARCHAR(255) ,
     model VARCHAR(255) ,
     motor VARCHAR(255) ,

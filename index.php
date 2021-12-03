@@ -31,9 +31,12 @@ require getcwd() . "/config/classes_require.php";
 
 // Init JS & CSS array
 $scripts = [];
+$scripts[] = "https://code.jquery.com/jquery-3.6.0";
+$scripts[] = VENDORS_PATH . "popper.min";
 $scripts[] = JS_PATH . "site";
 $stylesheets = [];
 $stylesheets[] = CSS_PATH . "root";
+$stylesheets[] = VENDORS_PATH . "bootstrap-4.1.3-dist/css/bootstrap.min";
 $stylesheets[] = CSS_PATH . "style";
 
 // Default values 404 page
@@ -46,5 +49,6 @@ require getcwd() . '/components/controllers/home_controller.php';
 $title .= " - " . APP_NAME;
 
 include(getcwd() . VIEW_PATH . "partials/header.php");
+include(getcwd() . VIEW_PATH . "partials/nav.php");
 include(getcwd() . VIEW_PATH . $include . ".php");
 include(getcwd() . VIEW_PATH . "partials/footer.php");

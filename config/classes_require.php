@@ -24,3 +24,6 @@ require getcwd() . '/components/models/User.php';
 require getcwd() . '/components/models/Youtube.php';
 require getcwd() . '/components/models/Zip.php';
 require getcwd() . '/components/models/Person.php';
+require getcwd() . '/components/models/Boat.php';
+require getcwd() . '/components/models/Saving.php';
+require getcwd() . '/components/models/Search.php';

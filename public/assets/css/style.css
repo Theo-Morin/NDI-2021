@@ -39,6 +39,8 @@ nav {
     align-items: center;
     margin-bottom:10px;
 }
+nav a:link {color:rgb(51,51,51);text-decoration: none;}
+nav a:visited {color:rgb(51,51,51);}
 nav > .search-bar {font-size:1.3rem;}
 
 /**

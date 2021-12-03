@@ -8,24 +8,23 @@ switch($uc2) {
         $title = "Créér une nouvelle personne";
         $user = new User();
         if($user->isLogged()){
-            if(isset($_POST['fullname']) && isset($_POST['grade']) && isset($_POST['content']) && isset($_POST['pics']) && isset($_POST['birth']) && isset($_POST['death']) && isset($_POST['gender'])){
-                $fullname = htmlspecialchars($_POST['fullname']);
-                $grade = htmlspecialchars($_POST['grade']);
-                $content = htmlspecialchars($_POST['content']);
-                $pics = ($_FILES['pics']);
-                $birth = htmlspecialchars($_POST['birth']);
-                $death = htmlspecialchars($_POST['death']);
-                $gender = htmlspecialchars($_POST['gender']);
-                Person::create($fullname,$grade,$content,$pics,$birth,$death,$gender);
+            if(isset($_POST['fullname'])){
+                if(!empty($_POST['fullname'])) {
+                    $fullname = htmlspecialchars($_POST['fullname']);
+                    $grade = htmlspecialchars($_POST['grade']);
+                    $content = htmlspecialchars($_POST['content']);
+                    $pics = $_FILES['pics'];
+                    $birth = htmlspecialchars($_POST['birth']);
+                    $death = htmlspecialchars($_POST['death']);
+                    $gender = htmlspecialchars($_POST['gender']);
+                    Person::create($fullname,$grade,$content,$pics,$birth,$death,$gender);
+                }
+                else {
+                    Notifications::create("warning","tout les champs sont nécessaires");
+                }
             }
-            else{
-                Notification::create("warning","tout les champs sont nécessaires");
-            }
-    }
-    else{
-        Notification::create("warning","veuillez vous connecter");
-        exit(header('Location: /contributor/login'));
-    }
+        }
+        else exit(header('Location: /contributor/login'));
     break;
     case "update":
         $uc3 = isset($_GET['uc3']) ? htmlspecialchars($_GET['uc3']) : exit(header('Location: /home'));
@@ -46,11 +45,11 @@ switch($uc2) {
                 $personne->update($fullname,$grade,$content,$pics,$birth,$death,$gender);
             }
             else{
-                Notification::create("warning","tout les champs sont nécessaires");
+                Notifications::create("warning","tout les champs sont nécessaires");
             }
         }
         else{
-            Notification::create("warning","veuillez vous connecter");
+            Notifications::create("warning","veuillez vous connecter");
             exit(header('Location: /contributor/login'));
         }
     break;
@@ -65,7 +64,7 @@ switch($uc2) {
 
         }
         else{
-            Notification::create("warning","tout les champs sont nécessaires");
+            Notifications::create("warning","tout les champs sont nécessaires");
         }
 
     break;
@@ -79,7 +78,7 @@ switch($uc2) {
             }
         }
         else{
-            Notification::create("warning","tout les champs sont nécessaires");
+            Notifications::create("warning","tout les champs sont nécessaires");
         }
     break;
     case "page":

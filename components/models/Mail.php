@@ -66,14 +66,14 @@ class Mail {
         }
         
         try {
-            $email = "no-reply@default_template.com";
+            $email = "no-reply@snsm.com";
             //Server settings
             //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
             $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host       = 'ssl0.ovh.net';                    // Set the SMTP server to send through
+            $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'emailing@default_template.com';                     // SMTP username
-            $mail->Password   = '';                               // SMTP password
+            $mail->Username   = 'snsm.emailing@gmail.com';                     // SMTP username
+            $mail->Password   = '%tcbUMvm9(+\'Dm=y';                               // SMTP password
             $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
             $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
             $mail->CharSet = 'UTF-8';

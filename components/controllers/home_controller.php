@@ -21,8 +21,8 @@ switch($uc1) {
     break;
     case "admin":
         $user = new User();
-        if(!$user->isAdmin()) exit(header('Location: /home'));
-        require '/components/controllers/admin_controller.php';
+        //if(!$user->isAdmin()) exit(header('Location: /home'));
+        require 'admin_controller.php';
     break;
     case "contributor":
         require 'user_controller.php';

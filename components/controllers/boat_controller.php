@@ -8,22 +8,24 @@ switch($uc2) {
         $title = "Créér un nouveau Bateau";
         $user = new User();
         if($user->isLogged()){
-            if(isset($_POST['imatriculation']) && isset($_POST['bname']) && isset($_POST['model']) && isset($_POST['motor']) && isset($_POST['birth']) && isset($_POST['death']) && isset($_POST['gender'])){
-                $imatriculation = htmlspecialchars($_POST['imatriculation']);
-                $bname = htmlspecialchars($_POST['bname']);
-                $model = htmlspecialchars($_POST['model']);
-                $motor = htmlspecialchars($_POST['motor']);
-                $lauchdate = htmlspecialchars($_POST['launchDate']);
-
-                if(Boat::create($imatriculation,$bname,$model,$motor,$lauchdate)) exit(header('Location: /home'));
-                return true;
-            }
-            else{
-                Notification::create("warning","tout les champs sont nécessaires");
+            if(isset($_POST['imatriculation'])){
+                if(!empty($_POST['imatriculation'])) {
+                    $imatriculation = htmlspecialchars($_POST['imatriculation']);
+                    $bname = htmlspecialchars($_POST['bname']);
+                    $model = htmlspecialchars($_POST['model']);
+                    $motor = htmlspecialchars($_POST['motor']);
+                    $lauchdate = htmlspecialchars($_POST['launchDate']);
+    
+                    if(Boat::create($imatriculation,$bname,$model,$motor,$lauchdate)) exit(header('Location: /home'));
+                    else Notifications::create("danger", "Impossible de créer le bateau.");
+                }
+                else {
+                    Notifications::create("warning","tout les champs sont nécessaires");
+                }
             }
     }
     else{
-        Notification::create("warning","veuillez vous connecter");
+        Notifications::create("warning","veuillez vous connecter");
         exit(header('Location: /contributor/login'));
     }
     break;
@@ -46,12 +48,12 @@ switch($uc2) {
                 
             }
             else{
-                Notification::create("warning","tout les champs sont nécessaires");
+                Notifications::create("warning","tout les champs sont nécessaires");
             
             }
         }
         else{
-            Notification::create("warning","veuillez vous connecter");
+            Notifications::create("warning","veuillez vous connecter");
             exit(header('Location: /contributor/login'));
         }
     break;

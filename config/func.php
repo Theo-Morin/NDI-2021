@@ -68,6 +68,11 @@ function getHeure($date)
     return $date;
 }
 
+function stringToDate($string) {
+    $date = strtotime($string);
+    return date("Y-m-d 00:00:00", $date);
+}
+
 /**
  * Récupère le "Il y a"
  * @param $ok : date

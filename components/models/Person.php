@@ -72,19 +72,22 @@ class Person{
 
 
     static function create($fullname,$grade,$content,$pics,$birth,$death,$gender){
-        if($this->user->isLogged()){
+        $user = new User();
+        if($user->isLogged()){
             $link = File::upload($pics, "persons");
-            $reqInsert = Database::getInstance()->prepare('INSERT INTO persons(fullname,grade,content,pics,birth,death,gender,confirmed,oldRef,userId) VALUES (?)');
-            
-            $reqInsert->execute(array($fullname,$grade,$content,$link,$birth,$deth,$gender,0,null,$this->user->getUserId()));
-            Notification::create("success","the update are succesfull");
-            if ($this->user->isAdmin()){
-                $this.validate();
+            $reqInsert = Database::getInstance()->prepare('INSERT INTO persons(fullname,grade,content,pics,birth,death,gender, userId) VALUES (?,?,?,?,?,?,?,?)');
+            $birth = stringToDate($birth);
+            $death = stringToDate($death);
+
+            $reqInsert->execute(array($fullname,$grade,$content,$link,$birth,$death,$gender,$user->getUserId()));
+            Notifications::create("success","Person was created !");
+            if ($user->isAdmin()){
+                //$this.validate();
             }
             return true;
         }
         else{
-            Notification::create("warning","you are not login");
+            Notifications::create("warning","you are not login");
             return false;
         }
     }
@@ -98,11 +101,11 @@ class Person{
             if ($this->user->isAdmin()){
                 $this.validate();
             }
-            Notification::create("success","the update are succesfull");
+            Notifications::create("success","the update are succesfull");
             return true;
         }
         else{
-            Notification::create("warning","you are not login");
+            Notifications::create("warning","you are not login");
             return false;
         }
     }
