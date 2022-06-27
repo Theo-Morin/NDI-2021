@@ -5,10 +5,10 @@
 *	$monDatabase qui contiendra l'unique instance de la classe
 */
 class Database {
-    private static $serveur='mysql:host=127.0.0.1;port=3306';
-    private static $bdd='dbname=template';
-    private static $user='myuser';
-    private static $mdp='1234';
+    private static $serveur='mysql:host=127.0.0.1;port=XXX';
+    private static $bdd='dbname=XXX';
+    private static $user='XXX';
+    private static $mdp='XXX';
     private static $db;
     private static $unPdo = null;
 
